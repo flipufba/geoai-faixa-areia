@@ -1,0 +1,19 @@
+# Ambiente para os notebooks do projeto (equivalente ao ambiente "geoai" usado localmente).
+name: geoai
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - gdal
+  - rasterio
+  - pyproj
+  - geopandas
+  - matplotlib
+  - requests
+  - owslib
+  - leafmap
+  - localtileserver
+  - jupyter
+  - pip
+  - pip:
+      - geoai-py

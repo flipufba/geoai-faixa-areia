@@ -1,0 +1,12 @@
+# Dados grandes ficam no computador/Drive, fora do repositório
+*.tif
+*.tiff
+*.vrt
+*.aux.xml
+*.pth
+conder_rms_2010/
+dados/
+.ipynb_checkpoints/
+__pycache__/
+*.part.tif
+.vscode/
