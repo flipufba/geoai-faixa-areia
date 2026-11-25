@@ -21,7 +21,7 @@ Cada notebook indica o que vem do material e o que foi ajustado para este projet
 | # | Notebook | Conteúdo | Colab |
 |---|---|---|---|
 | 01 | [01_aquisicao_ortofoto_conder.ipynb](notebooks/01_aquisicao_ortofoto_conder.ipynb) | Ortofoto CONDER RMS/Recôncavo 2010 sobre a área do recorte CBERS: exportação WMS em blocos e mosaico | [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flipufba/geoai-faixa-areia/blob/main/notebooks/01_aquisicao_ortofoto_conder.ipynb) |
-| 02 | *a fazer* | Rótulos da faixa de areia (`vector_to_raster`) e pares imagem–máscara (`export_geotiff_tiles`) | — |
+| 02 | [02_rotulos_e_tiles.ipynb](notebooks/02_rotulos_e_tiles.ipynb) | Protocolo de digitalização da areia, CBERS em 8 bits, máscara (`vector_to_raster`), tiles de 128 px (`export_geotiff_tiles`) e separação espacial treino/teste | [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flipufba/geoai-faixa-areia/blob/main/notebooks/02_rotulos_e_tiles.ipynb) |
 | 03 | *a fazer* | Treinamento U-Net, inferência e avaliação | — |
 
 ## Dados
@@ -31,7 +31,10 @@ As imagens **não** ficam no repositório. Elas ficam numa pasta de dados local 
 ```
 sensoriamento_remoto/
 ├── cbers_recortado.tiff        # CBERS-4A/WPM 09/02/2021, L4 (DN), RGB = bandas 3-2-1, 8 m, EPSG:32724
-└── conder_rms_2010/            # criada pelo notebook 01 (blocos, visão geral e mosaico)
+├── conder_rms_2010/            # criada pelo notebook 01 (blocos, visão geral e mosaico)
+├── rotulos/
+│   └── areia_cbers_2021.gpkg   # polígonos de areia digitalizados no QGIS (camadas "areia" e "excluir")
+└── preparacao/                 # criada pelo notebook 02 (CBERS 8 bits, máscara e tiles treino/teste)
 ```
 
 | Dado | Origem | Observação |
@@ -60,7 +63,7 @@ A pasta de dados é indicada pela variável de ambiente `GEOAI_FAIXA_DADOS`. Sem
 
 ```
 ├── notebooks/        # notebooks de entrega, publicados sem saídas
-├── scripts/          # gerador do notebook 01 (conteúdo versionado como Python)
+├── scripts/          # geradores dos notebooks (conteúdo versionado como Python)
 ├── environment.yml
 └── README.md
 ```

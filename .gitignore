@@ -4,6 +4,7 @@
 *.vrt
 *.aux.xml
 *.pth
+*.gpkg
 conder_rms_2010/
 dados/
 .ipynb_checkpoints/
