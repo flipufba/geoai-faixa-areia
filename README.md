@@ -26,14 +26,15 @@ Cada notebook indica o que vem do material e o que foi ajustado para este projet
 
 ## Dados
 
-As imagens **não** ficam no repositório. Elas ficam numa pasta de dados local ou no Google Drive:
+As imagens **não** ficam no repositório. Elas ficam numa pasta de dados local ou no Google Drive. A exceção são os
+rótulos vetoriais ([rotulos/](rotulos/)), que são pequenos e versionados para garantir a reprodutibilidade.
+
+
 
 ```
 sensoriamento_remoto/
 ├── cbers_recortado.tiff        # CBERS-4A/WPM 09/02/2021, L4 (DN), RGB = bandas 3-2-1, 8 m, EPSG:32724
 ├── conder_rms_2010/            # criada pelo notebook 01 (blocos, visão geral e mosaico)
-├── rotulos/
-│   └── areia_cbers_2021.gpkg   # polígonos de areia digitalizados no QGIS (camadas "areia" e "excluir")
 └── preparacao/                 # criada pelo notebook 02 (CBERS 8 bits, máscara e tiles treino/teste)
 ```
 
@@ -63,7 +64,7 @@ A pasta de dados é indicada pela variável de ambiente `GEOAI_FAIXA_DADOS`. Sem
 
 ```
 ├── notebooks/        # notebooks de entrega, publicados sem saídas
-├── scripts/          # geradores dos notebooks (conteúdo versionado como Python)
+├── rotulos/          # polígonos de areia (GeoPackage) — pequenos, por isso versionados
 ├── environment.yml
 └── README.md
 ```
