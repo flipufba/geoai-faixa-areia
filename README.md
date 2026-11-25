@@ -1,10 +1,20 @@
 # GeoAI — Faixa de Areia
 
-Segmentação semântica da faixa de areia no litoral norte de Salvador (BA) com imagens CBERS-4A e GeoAI,
-com apoio da ortofoto CONDER para interpretação e conferência.
+Segmentação semântica da areia exposta no litoral norte de Salvador (BA) com GeoAI, em duas imagens:
+CBERS-4A (8 m, 2021) e ortofoto CONDER (0,6 m, 2010).
 Atividade da disciplina **PPEC083** (Prof. Mauro Alixandrini).
 
 **Autor:** Felipe Reis da Cruz
+
+## Desenho do estudo
+
+1. **Experimento CBERS:** rótulos digitalizados apenas sobre a CBERS-4A, sem consultar a ortofoto, seguidos de treino e
+   avaliação.
+2. **Experimento CONDER:** o mesmo procedimento replicado sobre a ortofoto, com rótulos próprios.
+3. **Comparação:** os dois experimentos usam a mesma definição de classe (toda areia exposta), a mesma área e as mesmas
+   zonas de treino e teste. Cada modelo é avaliado contra a **referência da sua própria imagem**, e a comparação principal é
+   entre as métricas. As áreas de areia extraídas não são comparadas diretamente como erro, porque as imagens têm 11 anos de
+   diferença.
 
 ## Base metodológica
 
@@ -20,16 +30,16 @@ Cada notebook indica o que vem do material e o que foi ajustado para este projet
 
 | # | Notebook | Conteúdo | Colab |
 |---|---|---|---|
-| 01 | [01_aquisicao_ortofoto_conder.ipynb](notebooks/01_aquisicao_ortofoto_conder.ipynb) | Ortofoto CONDER RMS/Recôncavo 2010 sobre a área do recorte CBERS: exportação WMS em blocos e mosaico | [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flipufba/geoai-faixa-areia/blob/main/notebooks/01_aquisicao_ortofoto_conder.ipynb) |
-| 02 | [02_rotulos_e_tiles.ipynb](notebooks/02_rotulos_e_tiles.ipynb) | Protocolo de digitalização da areia, CBERS em 8 bits, máscara (`vector_to_raster`), tiles de 128 px (`export_geotiff_tiles`) e separação espacial treino/teste | [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flipufba/geoai-faixa-areia/blob/main/notebooks/02_rotulos_e_tiles.ipynb) |
-| 03 | *a fazer* | Treinamento U-Net, inferência e avaliação | — |
+| 01 | [01_aquisicao_ortofoto_conder.ipynb](notebooks/01_aquisicao_ortofoto_conder.ipynb) | Ortofoto CONDER RMS/Recôncavo 2010 (segunda imagem do estudo) sobre a área do recorte CBERS: exportação WMS em blocos e mosaico | [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flipufba/geoai-faixa-areia/blob/main/notebooks/01_aquisicao_ortofoto_conder.ipynb) |
+| 02 | [02_rotulos_e_tiles.ipynb](notebooks/02_rotulos_e_tiles.ipynb) | **CBERS:** protocolo de digitalização da areia, conversão para 8 bits, máscara (`vector_to_raster`), tiles de 128 px (`export_geotiff_tiles`) e separação espacial treino/teste | [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flipufba/geoai-faixa-areia/blob/main/notebooks/02_rotulos_e_tiles.ipynb) |
+| 03 | *a fazer* | **CBERS:** treinamento U-Net, inferência e avaliação | — |
+| — | *a fazer* | **CONDER:** replicação de rótulos, tiles, treino e avaliação | — |
+| — | *a fazer* | **Comparação** entre os experimentos | — |
 
 ## Dados
 
 As imagens **não** ficam no repositório. Elas ficam numa pasta de dados local ou no Google Drive. A exceção são os
 rótulos vetoriais ([rotulos/](rotulos/)), que são pequenos e versionados para garantir a reprodutibilidade.
-
-
 
 ```
 sensoriamento_remoto/
@@ -40,8 +50,8 @@ sensoriamento_remoto/
 
 | Dado | Origem | Observação |
 |---|---|---|
-| CBERS-4A WPM, cena 195/129, 09/02/2021 | INPE, recortada no QGIS | imagem de trabalho e referência espacial |
-| Ortofoto RMS_Reconcavo_2010 | [CONDER — WMS](https://mapas.conder.ba.gov.br/arcgis/services/MOSAICO/RMS_Reconcavo_2010/ImageServer/WMSServer) | apoio à interpretação; pixel nativo 0,6 m; **não é contemporânea da CBERS** |
+| CBERS-4A WPM, cena 195/129, 09/02/2021 | INPE, recortada no QGIS | imagem do experimento 1 e referência espacial (área e SRC) |
+| Ortofoto RMS_Reconcavo_2010 | [CONDER — WMS](https://mapas.conder.ba.gov.br/arcgis/services/MOSAICO/RMS_Reconcavo_2010/ImageServer/WMSServer) | imagem do experimento 2; pixel nativo 0,6 m; **não é contemporânea da CBERS** |
 
 ## Como executar
 
@@ -71,8 +81,8 @@ A pasta de dados é indicada pela variável de ambiente `GEOAI_FAIXA_DADOS`. Sem
 
 ## Cuidados metodológicos
 
-- A ortofoto de 2010 e a CBERS de 2021 não são contemporâneas. Mudanças na costa, na maré e na ocupação impedem usar a
-  ortofoto automaticamente como verdade de referência.
-- A imagem RGB entregue pelo WMS não é uma máscara de classes. Os rótulos são produzidos à parte, na grade da CBERS.
+- A ortofoto de 2010 e a CBERS de 2021 não são contemporâneas. Mudanças na costa, na maré e na ocupação impedem usar uma
+  como referência da outra. Cada imagem tem os seus próprios rótulos, e os da CBERS são feitos sem consultar a ortofoto.
+- A imagem RGB entregue pelo WMS não é uma máscara de classes. Os rótulos são produzidos à parte, na grade de cada imagem.
 - O tamanho da área de estudo, o dos blocos de download e o dos *tiles* do modelo são coisas distintas. Os parâmetros
   dos exemplos de aula são contextualizados antes de serem aplicados.
